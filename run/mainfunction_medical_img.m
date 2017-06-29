@@ -13,7 +13,7 @@ disp('Added paths....');
 addpaths();
 %set the parameters for running registration process
 disp('Setting parameters...');
-param = setparameters();
+param = setparameters_brainweb();
 
 %open the txt file to enter dice similarity values for each iteration
 if(setflagDS ==1)
@@ -28,6 +28,7 @@ fid_out1 = fopen(output_file1,'w');
 tol = 1e-06;
 %maximum number of iterations for each refinement level
 itermax = 50;
+
 %% 1: Read image data
 %Enter file name here
 disp('Reading image data...');
