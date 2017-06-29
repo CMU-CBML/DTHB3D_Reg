@@ -18,16 +18,17 @@ ny = size(Iplot,2);
 nz = size(Iplot,3);
 
 position_slice_x1=round(nx/2);
-position_slice_y1=64;
+position_slice_y1=64; %corresponding slice of the brain tumor image for clarity puposes
 position_slice_z1=round(nz/2);
 
 position_slice_x2=round(nx/2);
 position_slice_y2=79;
 position_slice_z2=round(nz/2);
+
 % Source image at the start of registration
 % slice in y direction
 for i=1:nz
-    I0x(:,i)=Img1(:,position_slice_y1,i);
+    I0x(:,i)=Img1(position_slice_x1,:,i);
 end
 
 I0x=I0x';
@@ -41,7 +42,7 @@ drawnow
 
 %slice at x position
 for i=1:nz
-    I0y(:,i)=Img1(position_slice_x1,:,i);
+    I0y(:,i)=Img1(:,psition_slice_y1,i);
 end
 
 I0yy=I0y';
@@ -64,7 +65,7 @@ drawnow
 % Registered image
 % slice at x position
 for i=1:nz
-    I0x(:,i)=Iplot(:,position_slice_y2,i);
+    I0x(:,i)=Iplot(position_slice_x2,:,i);
 end
 
 I0x=I0x';
@@ -79,7 +80,7 @@ drawnow
 
 %slice at y position
 for i=1:nz
-    I0y(:,i)=Iplot(position_slice_x2,:,i);
+    I0y(:,i)=Iplot(:,position_slice_y2,i);
 end
 
 I0yy=I0y';
@@ -103,7 +104,7 @@ drawnow
 % Target image
 % slice at y position
 for i=1:nz
-    I1x(:,i)=Img2(:,position_slice_y2,i);
+    I1x(:,i)=Img2(position_slice_x2,:,i);
 end
 
 I1x=I1x';
@@ -117,7 +118,7 @@ drawnow
 
 %slice at x position
 for i=1:nz
-    I1y(:,i)=Img2(position_slice_x2,:,i);
+    I1y(:,i)=Img2(:,position_slice_y2,i);
 end
 
 I1yy=I1y';
@@ -138,7 +139,7 @@ colormap('gray')
 drawnow
 
 % save image
-filename_img = sprintf('../PostProcessing/evolve_image%d.png',iterct);
+filename_img = sprintf('../post_processing/evolve_image%d.png',iterct);
 saveas(gcf,filename_img)
 
 end

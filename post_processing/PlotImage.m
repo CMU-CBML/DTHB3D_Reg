@@ -24,7 +24,7 @@ position_slice_z=round(nz/2);
 % Source image at the start of registration
 % slice in y direction
 for i=1:nz
-    I0x(:,i)=Img1(:,position_slice_y,i);
+    I0x(:,i)=Img1(position_slice_x,:,i);
 end
 
 I0x=I0x';
@@ -38,7 +38,7 @@ drawnow
 
 %slice at x position
 for i=1:nz
-    I0y(:,i)=Img1(position_slice_x,:,i);
+    I0y(:,i)=Img1(:,position_slice_y,i);
 end
 
 I0yy=I0y';
@@ -61,7 +61,7 @@ drawnow
 % Registered image
 % slice at x position
 for i=1:nz
-    I0x(:,i)=Iplot(:,position_slice_y,i);
+    I0x(:,i)=Iplot(position_slice_x,:,i);
 end
 
 I0x=I0x';
@@ -76,7 +76,7 @@ drawnow
 
 %slice at y position
 for i=1:nz
-    I0y(:,i)=Iplot(position_slice_x,:,i);
+    I0y(:,i)=Iplot(:,position_slice_y,i);
 end
 
 I0yy=I0y';
@@ -100,7 +100,7 @@ drawnow
 % Target image
 % slice at y position
 for i=1:nz
-    I1x(:,i)=Img2(:,position_slice_y,i);
+    I1x(:,i)=Img2(position_slice_x,:,i);
 end
 
 I1x=I1x';
@@ -114,7 +114,7 @@ drawnow
 
 %slice at x position
 for i=1:nz
-    I1y(:,i)=Img2(position_slice_x,:,i);
+    I1y(:,i)=Img2(:,position_slice_y,i);
 end
 
 I1yy=I1y';
@@ -135,7 +135,7 @@ colormap('gray')
 drawnow
 
 % save image
-filename_img = sprintf('../PostProcessing/evolve_image%d.png',iterct);
+filename_img = sprintf('../post_processing/evolve_image%d.png',iterct);
 saveas(gcf,filename_img)
 
 end
