@@ -163,7 +163,98 @@ for multilev = 0:1:param.maxlevel-1
     RHS_init = RHS;
     
     % start the iteration loop
-    IterationLoop
+    iterct_level = 0;
+    RS_final = 2;
+    
+    % while the stopping criterion is satisfied
+    while (abs(RS_final-RS_initial)>tol && iterct_level < itermax)
+        
+        tic
+        
+        % counting total iterations
+        iterct = iterct +1;
+        
+        % iterations for each refinement level
+        iterct_level = iterct_level+1;
+        
+        RS_initial = RS_final;
+        RHS = RHS_init;
+        
+        % compute the spatial transformation function f(x), f_u(x), f_v(x), f_w(x)
+        [BIGXX,BIGYY,BIGZZ,BIGMUX,BIGMUY,BIGMUZ,BIGMVX,BIGMVY,BIGMVZ,BIGMWX,BIGMWY,BIGMWZ] = computenewPoints_mex(Jm,ACP,PHI1,PHIU1,PHIV1,PHIW1,orderGauss);
+        
+        % interpolate the intensity and grdient at f(x) at the deformed positions of the gauss points
+        % cII1:   I1(f(x))
+        % cDII1X: I1_x(f(x))
+        % cDII1Y: I1_y(f(x))
+        % cDII1Z: I1_z(f(x))
+        cII1 = interp3(pixY, pixX, pixZ, I1, BIGYY, BIGXX, BIGZZ,'*spline');
+        cDII1X = interp3(pixY, pixX, pixZ, DI1X,BIGYY, BIGXX, BIGZZ,'*spline');
+        cDII1Y = interp3(pixY, pixX, pixZ, DI1Y, BIGYY, BIGXX, BIGZZ,'*spline');
+        cDII1Z = interp3(pixY, pixX, pixZ, DI1Z, BIGYY, BIGXX, BIGZZ,'*spline');
+        clear('BIGXX','BIGYY','BIGZZ');
+        
+        % denominator of the fidelity term (g(x))
+        denominate = sqrt((cDII1X.^2) + (cDII1Y.^2) + (cDII1Z.^2)+ smallNumber); %g(x)
+        
+        % fidelity term in x, y, z directions
+        Bterm1 = (cII1 - cII2).*2.*cDII1Y./denominate;
+        Bterm2 = (cII1 - cII2).*2.*cDII1X./denominate;
+        Bterm3 = (cII1 - cII2).*2.*cDII1Z./denominate;
+        
+        % Now compute the integrals for each basis function in the support of the active cell.
+        RHS= compute_Integ_Domain_mex(Jm,Bterm1,Bterm2,Bterm3,BIGMUX,BIGMUY,BIGMUZ,BIGMVX,BIGMVY,BIGMVZ,BIGMWX,BIGMWY,BIGMWZ,RHS,PHI1,PHIU1,PHIV1,PHIW1,lambda_1,lambda_2, Wu,Wv,Ww,H);
+        
+        % apply dirichlet boundary condition on the control points at the
+        % boundary
+        RHS = bcondition3D(RHS);
+        
+        % update the control points P_new = P_old - epsilon*delta(E)
+        ACP(:,1:3) = ACP(:,1:3) - timestep.*RHS(:,1:3);
+        
+        %compute the new positions of the pixel coordiantes using the spatial
+        %transformation function
+        [pxx, pyy, pzz] = tripleIterLoop_mex(sizeImage, Pixel, Jm, ACP);
+        
+        %Using the new position of the pixels, compute the new moving image
+        I1(I1<0) = 0;
+        I1(I1>255) = 255;
+        I1 = interp3(pixY, pixX, pixZ, I1,pyy,pxx,pzz,'*spline');
+        I1 = round(I1);
+        Iplot = interp3(pixY, pixX, pixZ, I1,pyy,pxx,pzz);
+        
+        %compute the image gradient
+        [DI1X,DI1Y,DI1Z] = gradient(I1);
+        
+        %compute the residual and RS value
+        Idiff2 = I1-I2;
+        Idiff22 = (Idiff2).^2;
+        Sum1 = sum(sum(sum(Idiff22,3),2),1);
+        final_residual = sqrt(Sum1);
+        RS_final = final_residual/residual_initial;
+        fprintf('RS = %f at Iteration = %d   ',RS_final, iterct_level);
+        fprintf(fid_out1,'Iteration = %d, residual = %f, RS = %f\r\n',iterct_level, final_residual, RS_final);
+        rs(iterct,1) = RS_final;
+        iterations(iterct,1) = iterct;
+        
+        %compute Dice similarity
+        if(setflagDS ==1)
+            computeDiceSimilarity(fid_out,iterct,I1,I2);
+        end
+        
+        % Plot the image and store the image in .png format
+        if(plotImage==1 && saveImage == 1)
+            PlotImage(iterct,I1_in,I2_in,Iplot);
+            save('I1_brainweb.mat','I1');
+            save('Iplot_brainweb.mat','Iplot');
+        end
+        
+        if(RS_final>RS_initial)
+            break;
+        end
+        toc;
+        
+    end
     
     %the centroids of the B-spline grid
     cell_co = zeros(ac_ct,3);
