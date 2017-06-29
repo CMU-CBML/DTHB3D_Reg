@@ -29,7 +29,7 @@ end
 %tolerance value for stopping criterion in the iteration loop (delta)
 tol = 1e-04;
 %maximum number of iterations for each refinement level
-itermax = 50;
+itermax = 30;
 %% 1: Read image data
 %Enter file name here
 disp('Reading image data...');
@@ -183,7 +183,6 @@ for multilev = 0:1:param.maxlevel-1
     iterct_level = 0;
     RS_final = 2;
     
-    itermax = 30;
     % while the stopping criterion is satisfied
     while (abs(RS_final-RS_initial)>tol && iterct_level < itermax)
         
@@ -257,7 +256,7 @@ for multilev = 0:1:param.maxlevel-1
         iterations(iterct,1) = iterct;
         
         %compute Dice similarity
-        if(setflagDS ==1)
+        if(setflagDS==1)
             computeDiceSimilarity(fid_out,iterct,I1,I2);
         end
         
@@ -277,7 +276,6 @@ for multilev = 0:1:param.maxlevel-1
         if(RS_final>RS_initial)
             break;
         end
-        
         toc;
         
     end
