@@ -1,4 +1,4 @@
-function param = setparameters()
+function param = setparameters_liver()
 %In this function, set the required parameters for the input to the
 %registration code
 
@@ -14,9 +14,9 @@ maxlevel = 4;
 orderGauss = 4;
 
 %initial grid: number of elements in x,y,z direction for level 1
-m_var = 25;
-n_var = 28;
-o_var = 25;
+m_var = 32;
+n_var = 4;
+o_var = 32;
 
 %regularization parameters 
 lambda_1 = 0.0001;
@@ -59,13 +59,14 @@ nobW(level,1) = kW(level,1) - pW - 1;
 end
 
 rho(1,1) = 1;
-rho(2,1) = 4;
-rho(3,1) = 6;
+rho(2,1) = 1;
+rho(3,1) = 3;
 
-timestep(1,1) = 0.0002;
-timestep(2,1) = 0.0005;
-timestep(3,1) = 0.0005;
-timestep(4,1) = 0.0005;
+timestep(1,1) = 0.00005;
+timestep(2,1) = 0.00001;
+timestep(3,1) = 0.000075;
+timestep(4,1) = 0.000075;
+
 %make a struct variable param, with all the parameters
 param = struct('pU',pU,'pV',pV,'pW',pW,'maxlevel',maxlevel,'nelemU',nelemU,'nelemV',nelemV,'nelemW',nelemW,...
     'orderGauss',orderGauss,'kU',kU,'kV',kV,'kW',kW,'nobU',nobU,...

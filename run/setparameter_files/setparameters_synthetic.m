@@ -1,4 +1,4 @@
-function param = setparameters()
+function param = setparameters_synthetic()
 %In this function, set the required parameters for the input to the
 %registration code
 
@@ -8,14 +8,14 @@ pV = 2;
 pW = 2;
 
 % maximum number of levels
-maxlevel = 4;
+maxlevel = 3;
 
 % order of gauss quadrature
 orderGauss = 4;
 
 %initial grid: number of elements in x,y,z direction for level 1
 m_var = 25;
-n_var = 28;
+n_var = 25;
 o_var = 25;
 
 %regularization parameters 
@@ -40,7 +40,7 @@ kU = zeros(maxlevel,1);
 kV = zeros(maxlevel,1);
 kW = zeros(maxlevel,1);
 
-rho = zeros(3,1); %refinement parameter
+rho = zeros(maxlevel,1); %refinement parameter
 timestep = zeros(maxlevel,1); %timestep for each refinement level
 
 %number of elements in each direction
@@ -58,14 +58,14 @@ nobV(level,1) = kV(level,1) - pV - 1;
 nobW(level,1) = kW(level,1) - pW - 1;
 end
 
-rho(1,1) = 1;
-rho(2,1) = 4;
+rho(1,1) = 2.5; %level 2 refinement
+rho(2,1) = 3; %level 3 refinement
 rho(3,1) = 6;
 
-timestep(1,1) = 0.0002;
-timestep(2,1) = 0.0005;
-timestep(3,1) = 0.0005;
-timestep(4,1) = 0.0005;
+timestep(1,1) = 0.00025;
+timestep(2,1) = 0.00025;
+timestep(3,1) = 0.00010;
+
 %make a struct variable param, with all the parameters
 param = struct('pU',pU,'pV',pV,'pW',pW,'maxlevel',maxlevel,'nelemU',nelemU,'nelemV',nelemV,'nelemW',nelemW,...
     'orderGauss',orderGauss,'kU',kU,'kV',kV,'kW',kW,'nobU',nobU,...
