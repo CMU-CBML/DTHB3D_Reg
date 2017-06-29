@@ -1,8 +1,8 @@
 function addpaths()
 % This function adds the folders of the package to the path for running
 % succesfully
-addpath '../Medimages3D'
-addpath '../images3D'
+addpath '../medical_images'
+addpath '../synthetic_images'
 addpath '../StorePhi'
 addpath '../PostProcessing'
 addpath '../bspline-util'
