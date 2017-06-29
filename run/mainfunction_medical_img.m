@@ -162,6 +162,26 @@ for multilev = 0:1:param.maxlevel-1
     %store the initial RHS value in RHS_init
     RHS_init = RHS;
     
+    %% Update the iteration loop here
+    
+    % Gauss order
+    orderGauss = param.orderGauss;
+    
+    % lambda 1,2 : regularization parameters
+    lambda_1 = param.lambda_1;
+    lambda_2 = param.lambda_2;
+    
+    % gamma term in g(x)
+    smallNumber = param.smallNumber;
+    
+    % timestep for each refinement level
+    timestep = param.timestep(multilev+1);
+    
+    % convert the cell array to struct array
+    PHI1 = cell2struct(PHI,'mat',2);
+    PHIU1 = cell2struct(PHIU,'mat',2);
+    PHIV1 = cell2struct(PHIV,'mat',2);
+    PHIW1 = cell2struct(PHIW,'mat',2);
     % start the iteration loop
     iterct_level = 0;
     RS_final = 2;
