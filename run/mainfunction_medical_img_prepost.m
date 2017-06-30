@@ -18,7 +18,7 @@ param = setparameters_prepost();
 
 %open the txt file to enter dice similarity values for each iteration
 if(setflagDS ==1)
-    output_file='Dice_similarity_sub45_46.txt';
+    output_file='Dice_similarity.txt';
     fid_out = fopen(output_file,'w');
     fprintf(fid_out, 'Level Iteration Background  CSF  GrayMatter  WhiteMatter  Fat  Muscle Muscle/Skin  Skull  vessels  AroundFat  DuraMatter  BoneMarrow\r\n');
 end
@@ -28,7 +28,7 @@ fid_out1 = fopen(output_file1,'w');
 %tolerance value for stopping criterion in the iteration loop (delta)
 tol = 1e-04;
 %maximum number of iterations for each refinement level
-itermax = 100;
+itermax = 50;
 %% 1: Read image data
 %Enter file name here
 disp('Reading image data...');
@@ -51,7 +51,7 @@ MSD_initial = sum(sum(sum(Idiff2,3),2),1)/size(I1,1)/size(I1,2)/size(I1,3);
 fprintf(fid_out1,'initial residual = %f\r\n',residual_initial);
 RS_initial = 1;
 fprintf('initial residual %f\n',residual_initial);
-fprintf('initial residual %f\n',MSD_initial);
+fprintf('initial MSD %f\n',MSD_initial);
 fprintf('initial RS value %f\n',RS_initial);
 
 %Store the pixel coordinates
@@ -187,7 +187,7 @@ for multilev = 0:1:param.maxlevel-1
     
     iterct_level = 0;
     RS_final = 2;
-
+    
     % while the stopping criterion is satisfied
     while (abs(RS_final-RS_initial)>tol && iterct_level < itermax)
         
@@ -266,13 +266,11 @@ for multilev = 0:1:param.maxlevel-1
         
         % Plot the image and store the image in .png format
         if(plotImage==1 && saveImage == 1)
-            PlotImage(iterct,I1_in,I2_in,Iplot);
-            save('I1_prepost.mat','I1');
-            save('Iplot_prepost.mat','Iplot');
+            PlotImage_prepost(iterct,I1_in,I2_in,Iplot);
         end
         
         if(RS_final>RS_initial)
-        break;
+            break;
         end
         toc;
         
