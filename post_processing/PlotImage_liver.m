@@ -1,4 +1,4 @@
-function PlotImage(iterct,Img1,Img2,Iplot)
+function PlotImage_liver(iterct,Img1,Img2,Iplot)
 % In this function the image is displayed and stored in .png format. 
 
 % INPUT:

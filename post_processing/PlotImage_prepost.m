@@ -18,23 +18,23 @@ ny = size(Iplot,2);
 nz = size(Iplot,3);
 
 position_slice_x1=round(nx/2);
-position_slice_y1=64; %corresponding slice of the brain tumor image for clarity puposes
+position_slice_y1= 64; %prefered slice to see the maximum deformation during registration
 position_slice_z1=round(nz/2);
 
-position_slice_x2=round(nx/2);
-position_slice_y2=79;
-position_slice_z2=round(nz/2);
 
+position_slice_x=round(nx/2);
+position_slice_y= 79; %prefered slice to see the maximum deformation during registration
+position_slice_z=round(nz/2);
 % Source image at the start of registration
 % slice in y direction
 for i=1:nz
-    I0x(:,i)=Img1(position_slice_x1,:,i);
+    I1x(:,i)=Img1(position_slice_x1,:,i);
 end
 
-I0x=I0x';
-I0x=flipud(I0x);
+I1x=I1x';
+I1x=flipud(I1x);
 subtightplot(3,3,1,[0.05,0.000005])
-imagesc(I0x)
+imagesc(I1x)
 title(['I0 at x=', num2str(position_slice_x1),'  iter = ',num2str(iterct)]);
 axis image
 colormap('gray')
@@ -42,13 +42,13 @@ drawnow
 
 %slice at x position
 for i=1:nz
-    I0y(:,i)=Img1(:,psition_slice_y1,i);
+    I1y(:,i)=Img1(:,position_slice_y1,i);
 end
 
-I0yy=I0y';
-I0yy=flipud(I0yy);
+I1yy=I1y';
+I1yy=flipud(I1yy);
 subtightplot(3,3,4,[0.05,0.000005])
-imagesc(I0yy)
+imagesc(I1yy)
 title(['I0 at y= ', num2str(position_slice_y1),'  iter = ',num2str(iterct)])
 axis image
 colormap('gray')
@@ -65,38 +65,38 @@ drawnow
 % Registered image
 % slice at x position
 for i=1:nz
-    I0x(:,i)=Iplot(position_slice_x2,:,i);
+    I2x(:,i)=Iplot(position_slice_x,:,i);
 end
 
-I0x=I0x';
-I0x=flipud(I0x);
+I2x=I2x';
+I2x=flipud(I2x);
 
 subtightplot(3,3,2,[0.05,0.000005])
-imagesc(I0x)
-title(['I1 at x=', num2str(position_slice_x2),'  iter = ',num2str(iterct)]);
+imagesc(I2x)
+title(['I1 at x=', num2str(position_slice_x),'  iter = ',num2str(iterct)]);
 axis image
 colormap('gray')
 drawnow
 
 %slice at y position
 for i=1:nz
-    I0y(:,i)=Iplot(:,position_slice_y2,i);
+    I2y(:,i)=Iplot(:,position_slice_y,i);
 end
 
-I0yy=I0y';
-I0yy=flipud(I0yy);
+I2yy=I2y';
+I2yy=flipud(I2yy);
 subtightplot(3,3,5,[0.05,0.000005])
-imagesc(I0yy)
+imagesc(I2yy)
 
-title(['I1 at y= ', num2str(position_slice_y2),'  iter = ',num2str(iterct)])
+title(['I1 at y= ', num2str(position_slice_y),'  iter = ',num2str(iterct)])
 axis image
 colormap('gray')
 drawnow
 
 %slice at z position
 subtightplot(3,3,8,[0.05,0.000005])
-imagesc(flipud(Iplot(:,:,position_slice_z2)'))
-title(['I1 at z= ', num2str(position_slice_z2),'  iter = ',num2str(iterct)])
+imagesc(flipud(Iplot(:,:,position_slice_z)'))
+title(['I1 at z= ', num2str(position_slice_z),'  iter = ',num2str(iterct)])
 axis image
 colormap('gray')
 drawnow
@@ -104,36 +104,36 @@ drawnow
 % Target image
 % slice at y position
 for i=1:nz
-    I1x(:,i)=Img2(position_slice_x2,:,i);
+    I3x(:,i)=Img2(position_slice_x,:,i);
 end
 
-I1x=I1x';
-I1x=flipud(I1x);
+I3x=I3x';
+I3x=flipud(I3x);
 subtightplot(3,3,3,[0.05,0.000005])
-imagesc(I1x)
-title(['I2 at x= ', num2str(position_slice_x2),'  iter = ',num2str(iterct)])
+imagesc(I3x)
+title(['I2 at x= ', num2str(position_slice_x),'  iter = ',num2str(iterct)])
 axis image
 colormap('gray')
 drawnow
 
 %slice at x position
 for i=1:nz
-    I1y(:,i)=Img2(:,position_slice_y2,i);
+    I3y(:,i)=Img2(:,position_slice_y,i);
 end
 
-I1yy=I1y';
-I1yy=flipud(I1yy);
+I3yy=I3y';
+I3yy=flipud(I3yy);
 subtightplot(3,3,6,[0.05,0.000005])
-imagesc(I1yy)
-title(['I2 at y= ', num2str(position_slice_y2),'  iter = ',num2str(iterct)])
+imagesc(I3yy)
+title(['I2 at y= ', num2str(position_slice_y),'  iter = ',num2str(iterct)])
 axis image
 colormap('gray')
 drawnow
 
 %slice at z position
 subtightplot(3,3,9,[0.05,0.000005])
-imagesc(flipud(Img2(:,:,position_slice_z2)'))
-title(['I2 at z= ', num2str(position_slice_z2),'  iter = ',num2str(iterct)])
+imagesc(flipud(Img2(:,:,position_slice_z)'))
+title(['I2 at z= ', num2str(position_slice_z),'  iter = ',num2str(iterct)])
 axis image
 colormap('gray')
 drawnow
