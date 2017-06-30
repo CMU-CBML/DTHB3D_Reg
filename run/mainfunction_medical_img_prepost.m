@@ -1,4 +1,4 @@
-%function mainfunction_medical_img_pre_post()
+function mainfunction_medical_img_prepost()
 clear all;
 close all;
 clc;
@@ -291,5 +291,5 @@ for multilev = 0:1:param.maxlevel-1
 end
 figure;
 plot(rs,iterations)
-%end
+end
 
