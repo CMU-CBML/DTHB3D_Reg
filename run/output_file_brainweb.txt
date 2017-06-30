@@ -1,0 +1,2 @@
+initial residual = 131978.975485
+active elements = 17500, active DOF =  21870 at level = 1 

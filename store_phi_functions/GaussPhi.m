@@ -1,4 +1,5 @@
 function [PHI,PHIU,PHIV,PHIW,BIGX,BIGY,BIGZ,H] = GaussPhi(ac,Em,knotvectorU,knotvectorV,knotvectorW,Coeff,param)
+%#codegen
 % This function computes the basis function (phi) along with the first
 % derivative in each parametric direction (phi_u, phi_v, phi_w) at each
 % gauss point in the active element
@@ -71,9 +72,9 @@ DERW = cell(maxlevel,1);
 for i =1:maxlevel 
     
     
-    dersU = zeros(nelemU(i,1),orderGauss,2,pU+1);
-    dersV = zeros(nelemV(i,1),orderGauss,2,pV+1);
-    dersW = zeros(nelemW(i,1),orderGauss,2,pW+1);
+    dersU = zeros(nobU(i),orderGauss,2,pU+1);
+    dersV = zeros(nobV(i,1),orderGauss,2,pV+1);
+    dersW = zeros(nobW(i,1),orderGauss,2,pW+1);
     
     knotU = knotvectorU{i,1};
     knotV = knotvectorV{i,1};
@@ -90,6 +91,15 @@ for i =1:maxlevel
         
         for k=1:size(s1,1)
             index = FindSpan(nobU(i,1)-1,pU,s1(k,1),knotU) + 1;
+            if j>size(dersU,1)
+                size(dersU)
+                pause
+            end
+            if k>size(dersU,2)
+                size(dersU)
+                pause
+            end
+            
             dersU(j,k,:,:) = Der1BasisFun(index-1,s1(k,1),pU,knotU);
         end
     end
@@ -124,9 +134,9 @@ for i =1:maxlevel
         end
     end
     
-    DERU{i,1} = dersU;
-    DERV{i,1} = dersV;
-    DERW{i,1} = dersW;
+    DERU{i} = dersU;
+    DERV{i} = dersV;
+    DERW{i} = dersW;
 end
 
 BIGX = zeros(orderGauss,ac_ct,orderGauss,orderGauss,'single');
@@ -192,10 +202,10 @@ parfor i = 1:ac_ct
     [g_phi, g_phiu, g_phiv, g_phiw] = computeGaussPhiMat(u(1,1),v(1,1),w(1,1),param,ders1,ders2,ders3,gg_coeff);
     
     %store the phis in the corresponding cell array
-    PHI{i,1} = g_phi;
-    PHIU{i,1} = g_phiu;
-    PHIV{i,1} = g_phiv;
-    PHIW{i,1} = g_phiw;
+    PHI{i} = g_phi;
+    PHIU{i} = g_phiu;
+    PHIV{i} = g_phiv;
+    PHIW{i} = g_phiw;
     
 end
 

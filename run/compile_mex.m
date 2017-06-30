@@ -5,13 +5,18 @@
 % 
 % See also CODER, CODER.CONFIG, CODER.TYPEOF, CODEGEN.
 
+
+%adding paths
+addpaths();
+
+
 %% Create configuration object of class 'coder.MexCodeConfig'.
 cfg = coder.config('mex');
 cfg.GenerateReport = true;
-cfg.ReportPotentialDifferences = false;
+%cfg.ReportPotentialDifferences = false;
 cfg.GlobalDataSyncMethod = 'NoSync';
 
-
+cd ./iteration_loop_func
 %% Define argument types for entry-point 'computenewPoints'.
 ARGS = cell(1,1);
 ARGS{1} = cell(7,1);
@@ -110,7 +115,7 @@ ARGS{1}{4} = coder.typeof(0,[Inf  4],[1 0]);
 %% Invoke MATLAB Coder.
 codegen -config cfg tripleIterLoop -args ARGS{1}
 
-cd ../storePhi
+cd ../../store_phi_functions
 % Define argument types for entry-point 'storePixelPhi'.
 ARGS = cell(1,1);
 ARGS{1} = cell(9,1);
@@ -161,6 +166,54 @@ ARGS{1}{9} = coder.typeof(ARGS{1}{9});
 %% Invoke MATLAB Coder.
 codegen -config cfg storePixelPhi -args ARGS{1}
 
+%% Define argument types for entry-point 'GaussPhi'.
+ARGS = cell(1,1);
+ARGS{1} = cell(7,1);
+ARGS{1}{1} = coder.typeof(0,[Inf  2],[1 0]);
+ARGS{1}{2} = struct;
+ARGS{1}{2}.knot_ind = coder.typeof(0,[Inf  3  2],[1 0 0]);
+ARGS{1}{2}.flag_active = coder.typeof(0,[Inf  1],[1 0]);
+ARGS{1}{2}.IEN = coder.typeof(0,[Inf  27],[1 0]);
+ARGS{1}{2}.chdElem = coder.typeof(0,[Inf  8],[1 0]);
+ARGS{1}{2}.cell_centre = coder.typeof(0,[Inf  3],[1 0]);
+ARGS{1}{2}.node = coder.typeof(0,[Inf  1],[1 0]);
+ARGS{1}{2}.parElem = coder.typeof(0,[Inf  1],[1 0]);
+ARGS{1}{2}.actE = coder.typeof(0,[Inf  1],[1 0]);
+ARGS{1}{2} = coder.typeof(ARGS{1}{2},[Inf  1],[1 0]);
+ARG = coder.typeof(0,[1 Inf],[0 1]);
+ARGS{1}{3} = coder.typeof({ARG}, [Inf  1],[1 0]);
+ARG = coder.typeof(0,[1 Inf],[0 1]);
+ARGS{1}{4} = coder.typeof({ARG}, [Inf  1],[1 0]);
+ARG = coder.typeof(0,[1 Inf],[0 1]);
+ARGS{1}{5} = coder.typeof({ARG}, [Inf  1],[1 0]);
+ARGS{1}{6} = struct;
+ARGS{1}{6}.mat = coder.typeof(single(0),[Inf  27],[1 0]);
+ARGS{1}{6} = coder.typeof(ARGS{1}{6},[Inf  1],[1 0]);
+ARGS{1}{7} = struct;
+ARGS{1}{7}.pU = coder.typeof(0);
+ARGS{1}{7}.pV = coder.typeof(0);
+ARGS{1}{7}.pW = coder.typeof(0);
+ARGS{1}{7}.maxlevel = coder.typeof(0);
+ARGS{1}{7}.nelemU = coder.typeof(0,[Inf  1],[1 0]);
+ARGS{1}{7}.nelemV = coder.typeof(0,[Inf  1],[1 0]);
+ARGS{1}{7}.nelemW = coder.typeof(0,[Inf  1],[1 0]);
+ARGS{1}{7}.orderGauss = coder.typeof(0);
+ARGS{1}{7}.kU = coder.typeof(0,[Inf  1],[1 0]);
+ARGS{1}{7}.kV = coder.typeof(0,[Inf  1],[1 0]);
+ARGS{1}{7}.kW = coder.typeof(0,[Inf  1],[1 0]);
+ARGS{1}{7}.nobU = coder.typeof(0,[Inf  1],[1 0]);
+ARGS{1}{7}.nobV = coder.typeof(0,[Inf  1],[1 0]);
+ARGS{1}{7}.nobW = coder.typeof(0,[Inf  1],[1 0]);
+ARGS{1}{7}.rho = coder.typeof(0,[Inf  1],[1 0]);
+ARGS{1}{7}.timestep = coder.typeof(0,[Inf  1],[1 0]);
+ARGS{1}{7}.smallNumber = coder.typeof(0);
+ARGS{1}{7}.lambda_1 = coder.typeof(0);
+ARGS{1}{7}.lambda_2 = coder.typeof(0);
+ARGS{1}{7} = coder.typeof(ARGS{1}{7});
+
+%% Invoke MATLAB Coder.
+codegen -config cfg GaussPhi -args ARGS{1}
+
 cd ../bspline-util
 
 %% Define argument types for entry-point 'FindSpan'.
@@ -174,7 +227,7 @@ ARGS{1}{4} = coder.typeof(0,[1 Inf],[0 1]);
 %% Invoke MATLAB Coder.
 codegen -config cfg FindSpan -args ARGS{1}
 
-cd ../THBrefinement
+cd ../thb_refinement
 
 %% Define argument types for entry-point 'computeNonZeroSplines'.
 ARGS = cell(1,1);

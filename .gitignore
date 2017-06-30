@@ -1,0 +1,16 @@
+*.vtk
+*.vtu
+*.asv
+*.m~
+.DS_Store
+*.pdf
+*.tiff
+*.fig
+*.zip
+*.mnc
+*.rawb
+*.png
+**/codegen/**
+Dice*.txt
+**/.DS_Store
+

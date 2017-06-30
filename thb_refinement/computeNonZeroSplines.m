@@ -30,7 +30,7 @@ ac_ct = size(ac,1);
 Coeff = cell(ac_ct,1);
 Jm = cell(ac_ct,1);
 
-parfor i = 1:ac_ct %loop over the active elements
+for i = 1:ac_ct %loop over the active elements
     
     counter = 0;
         
