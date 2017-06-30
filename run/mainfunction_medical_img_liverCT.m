@@ -1,4 +1,4 @@
-%function mainfunction_medical_img_liverCT()
+function mainfunction_medical_img_liverCT()
 clear all;
 close all;
 clc;
@@ -18,7 +18,7 @@ param = setparameters_liver();
 
 %open the txt file to enter dice similarity values for each iteration
 if(setflagDS ==1)
-    output_file='Dice_similarity_sub45_46.txt';
+    output_file='Dice_similarity.txt';
     fid_out = fopen(output_file,'w');
     fprintf(fid_out, 'Level Iteration Background  CSF  GrayMatter  WhiteMatter  Fat  Muscle Muscle/Skin  Skull  vessels  AroundFat  DuraMatter  BoneMarrow\r\n');
 end
@@ -265,8 +265,6 @@ for multilev = 0:1:param.maxlevel-1
         % Plot the image and store the image in .png format
         if(plotImage==1 && saveImage == 1)
             PlotImage_liver(iterct,I1_in,I2_in,Iplot);
-            save('I1_liver.mat','I1');
-            save('Iplot_liver.mat','Iplot');
         end
         
         if(RS_final>RS_initial)
