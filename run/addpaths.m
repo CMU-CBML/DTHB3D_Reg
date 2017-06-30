@@ -9,5 +9,5 @@ addpath '../bspline-util'
 addpath '../thb_refinement'
 addpath '../run/setparameter_files'
 addpath '../run/iteration_loop_func'
-addpath '../ReadData3D_version1k'
+addpath '../Read3DImage'
 end
