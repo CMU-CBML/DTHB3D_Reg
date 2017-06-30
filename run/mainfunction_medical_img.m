@@ -25,7 +25,7 @@ end
 output_file1 ='output_file_brainweb.txt';
 fid_out1 = fopen(output_file1,'w');
 %tolerance value for stopping criterion in the iteration loop (delta)
-tol = 1e-06;
+tol = 1e-03;
 %maximum number of iterations for each refinement level
 itermax = 50;
 
@@ -265,8 +265,6 @@ for multilev = 0:1:param.maxlevel-1
         % Plot the image and store the image in .png format
         if(plotImage==1 && saveImage == 1)
             PlotImage(iterct,I1_in,I2_in,Iplot);
-            save('I1_brainweb.mat','I1');
-            save('Iplot_brainweb.mat','Iplot');
         end
         
         if(RS_final>RS_initial)
