@@ -1,141 +1,71 @@
 This text file gives a detailed description of the software package
 DTHB3D_Reg, to perform non-rigid image registration in 3D.
 
-The software package is divided into different subfolders for easy reading. Following are the sub-folders with their respective function codes.
-
-1. run
-a. addpaths.m
-b. mainfunction_medical_img.m
-c. mainfunction_medical_img_brainT1.m
-d. mainfunction_medical_img_liverCt.m
-e. mainfunction_medical_img_prepost.m
-f. mainfunction_synthetic_img.m
-g. compile_ex.m
-
-Subfolders:
-1. setparameters_files
-a. setparameters.m
-b. setparameters_brainweb.m
-c. setparameters_liver.m
-d. setparameters_mr_T1.m
-e. setparameters_prepost.m
-f. setparameters_synthetic.m
-
-2. iteration_loop_func
-a. bcondition3D.m
-c. compute_Integ_Domain.m
-d. computeDiceSimilarity.m
-e. computeDiffGradImage.m
-f. computenewPoints.m
-g. ConvertIntensity.m
-h. DiceSimilarity.m
-i. tripleIterLoop.m
-j. tripleLoopBody.m
-
-
-2. bspline-util
-a. BasisFun.m
-b. Der1BasisFun.m
-c. DerBasisFun.m
-d. FindSpan.m
-e. ggquad.m
-f. Initial.m
-g. KnotInsert.m
-h. OneBasisFun.m
-i. Tmatrix.m
-
-3. medical_images
-a. mha_read_header.m
-b. mha_read_volume.m
-c. read3DImage_brainWeb.m
-c. read3DImage_liverCT.m
-d. read3DImage_mrT1.m
-e. read3DImage_prepost.m
-b. redrawb.m
-c. resize3Dmatrix.m
-
-4. post_processing
-a. vtkwrite.m
-b. PlotImage.m
-c. PlotImage_liver.m
-d. PlotImage_prepost.m
-e. subtightplot.m
-
-5. read3DImage
-a. ReadData3D.fig
-b. hr_read_header.m
-c. hdr_read_volume.m
-d. ReadData3D.m
-
-6. store_phi_functions
-a. computeGaussPhiMat.m
-b. storePixelPhi.m
-c. GaussPhi.m
-d. storePixelPhi_script.m
-
-7. synthetic_images 
-a. Sphere.mat
-b. sphere_200_255.mat
-c. torus_200_255.mat
-d. sun_like.mat
-
-8. thb_refinement
-a. computeCoeffMat.m
-b. computeCoeffmatrix.m
-c. computeNonZeroSplines.m
-d. Refine3D_truncation.m
-e. setBsplineGrid_func_withoutNode.m
-f. storeActiveElem.m
-g. storeBasisArray.m
-h. storeElemArray.m
-i. storeKnotArray.m
-j. THB_Refinement.m
-k. computeNonZeroSplines_script.m
 
 Usage:
-Use mainfunction_medical_img.m as the main code to run the registration process. To set the parameters for registration update the values in 
-setparameters_brainweb.m file. Parameters in set_parameters_*.m file that are needed to be set are as follows:
+Use mainfunction_medical_img.m as the main code to run the registration process. To set the 
+parameters for registration update the values in 
+setparameters_brainweb.m file. Parameters in set_parameters_*.m file that are needed to be set 
+are as follows:
 
 1. maxlevel: maximum level of refinement, default = 3
-2. m_var, n_var, o_var: number of elements in x, y and z direction at the start of registration for level = 1.  
+2. m_var, n_var, o_var: number of elements in x, y and z direction at the start of registration 
+for level = 1.  
 3. rho for each refinement level, increase rho for higher refinement levels
 4. timestep: tilmestep for each refinement level
 
 In mainfunction_*.m file, set the other parameters as follows:
 
 1. setflagDS: 1—yes,0—no (default = 0)
-This parameter allows for the computation of the Dice Similarity metric for 12 class labels of brain MRI images taken from http://brainweb.bic.mni.mcgill.ca/brainweb/ website. The output dice values are written to a .txt file.
+This parameter allows for the computation of the Dice Similarity metric for 12 class labels of 
+brain MRI images taken from http://brainweb.bic.mni.mcgill.ca/brainweb/ website. The output 
+dice values are written to a .txt file.
 
 2. plotGrid: 1—yes, 0—no (default = 0)
-This parameter allows for plotting the adaptively refined grids at all the refinement levels. The output is stores as mesh.vtk file for visualization in preview or other softwares
+This parameter allows for plotting the adaptively refined grids at all the refinement levels. 
+The output is stores as mesh.vtk file for visualization in preview or other softwares
 
 3. plotImage: 1—yes, 0—no (default = 1)
-Plot 2D slices of the 3D image along different planes, i.e. axial, sagittal, coronal. The initial source and target images are plotted along with the evolving image obtained at each iteration.
+Plot 2D slices of the 3D image along different planes, i.e. axial, sagittal, coronal. The 
+initial source and target images are plotted along with the evolving image obtained at each 
+iteration.
 
 4. saveImage: 1—yes, 0—no (default = 0)
-Save the image in png format. 2D slices of the 3D image along different planes, i.e. axial, sagittal, coronal. The initial source and target images are plotted along with the evolving image obtained at each iteration, these are saved in the images.
+Save the image in png format. 2D slices of the 3D image along different planes, i.e. axial, 
+sagittal, coronal. The initial source and target images are plotted along with the evolving 
+image obtained at each iteration, these are saved in the images.
 
-5. tol: stopping threshold value for the stop of the iterations in each refinement level. The tol value equals the difference between the RS value at the current and previous levels. The default value is set as 10^-3.
+5. tol: stopping threshold value for the stop of the iterations in each refinement level. The 
+tol value equals the difference between the RS value at the current and previous levels. The 
+default value is set as 10^-3.
 
 6. itermax: the maximum iterations for each refinement level. The default value is 100.
 
 7. saveVTK:  1—yes, 0—no (default = 0)
-Save the 3D image in .vtk format to visualize in Paraview. This is used for visualization of the synthetic images. 
+Save the 3D image in .vtk format to visualize in Paraview. This is used for visualization of 
+the synthetic images. 
 
-For medical images, download the images and store in medical_images folder. The acceptable formats are .mha, .rawb. In mainfunction_medical_img.m change the filenameI1 and filenameI2 for the source and target images according to the files used. For example filenameI1 = 'subject04_crisp_v.rawb’;
+For medical images, download the images and store in medical_images folder. The acceptable 
+formats are .mha, .rawb. In mainfunction_medical_img.m change the filenameI1 and filenameI2 for 
+the source and target images according to the files used. For example filenameI1 = 
+'subject04_crisp_v.rawb’;
 
 The code also uses parallel computation and MEX functions to accelerate computation. 
 
-The parallel computing is computed using ‘parfor’ loops in Parallel Computing Toolbox. When parlor loop is used inside a mex function, the corresponding function is converted to OpenMP processing in mex platform. This helps in accelerating the code even more. 
+The parallel computing is computed using ‘parfor’ loops in Parallel Computing Toolbox. When 
+parlor loop is used inside a mex function, the corresponding function is converted to OpenMP 
+processing in mex platform. This helps in accelerating the code even more. 
 
 
-Here the following functions use MEX functions:
-1. FindSpan:
-2. computeCoeffmatrix:
-3. computenewPoints:
-4. compute_Integ_Domain:
-5. tripleIterLoop:
+The following functions can be compiled to MEX files:
+1. FindSpan
+2. computeCoeffMat
+3. computenewPoints
+4. compute_Integ_Domain
+5. tripleIterLoop
 6. storePixelPhi
+7. GaussPhi
+
 
 
 

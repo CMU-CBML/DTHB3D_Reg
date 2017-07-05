@@ -1,7 +1,12 @@
 clear all;
 close all;
 
+output_file1 ='output_file_sphere_sun.txt';
+fid_out1 = fopen(output_file1,'w');
+% if computing Dice Similarity for medical images from Brainweb, setflagDS
+% = 1;
 setflagDS = 0;
+saveVTK = 0;
 plotImage = 1; %plot image for display and save the image in .png format
 saveImage = 1; %save image result in .mat format
 
@@ -10,28 +15,26 @@ disp('Added paths....');
 addpaths();
 %set the parameters for running registration process
 disp('Setting parameters...');
-param = setparameters_prepost();
+param = setparameters_synthetic();
 
 %open the txt file to enter dice similarity values for each iteration
 if(setflagDS ==1)
-    output_file='Dice_similarity.txt';
+    output_file='Dice_similarity_sub45_46.txt';
     fid_out = fopen(output_file,'w');
     fprintf(fid_out, 'Level Iteration Background  CSF  GrayMatter  WhiteMatter  Fat  Muscle Muscle/Skin  Skull  vessels  AroundFat  DuraMatter  BoneMarrow\r\n');
 end
 
-output_file1 ='output_file_prepost.txt';
-fid_out1 = fopen(output_file1,'w');
 %tolerance value for stopping criterion in the iteration loop (delta)
 tol = 1e-04;
 %maximum number of iterations for each refinement level
-itermax = 50;
+itermax = 20;
 %% 1: Read image data
 %Enter file name here
 disp('Reading image data...');
-filenameI0='PreOp.img';
-filenameI1='PostOp.img';
-
-[I1,I2] = read3DImage_prepost(filenameI0,filenameI1);
+load Sphere.mat;
+load sun_like.mat;
+I1 = Sphere;
+I2 = sun_like;
 I1_in = I1; %store initial moving image
 I2_in = I2; %store initial target image
 
@@ -43,11 +46,9 @@ disp('Compute initial RS...');
 Idiff = I1-I2;
 Idiff2 = (Idiff).^2;
 residual_initial = sqrt(sum(sum(sum(Idiff2,3),2),1));
-MSD_initial = sum(sum(sum(Idiff2,3),2),1)/size(I1,1)/size(I1,2)/size(I1,3);
 fprintf(fid_out1,'initial residual = %f\r\n',residual_initial);
 RS_initial = 1;
 fprintf('initial residual %f\n',residual_initial);
-fprintf('initial MSD %f\n',MSD_initial);
 fprintf('initial RS value %f\n',RS_initial);
 
 %Store the pixel coordinates
@@ -69,8 +70,10 @@ tic
 [Dm,Em] = setBsplineGrid_func_withoutNode(knotvectorU,knotvectorV,knotvectorW,param);
 toc
 
+
+
 %% Store level 1 control points
-disp('Compute control points at level 1 using Greville abscissae...');
+disp('Compute control points at level 1 using Greville coordinates...');
 knotu = knotvectorU{1,1};
 knotv = knotvectorV{1,1};
 knotw = knotvectorW{1,1};
@@ -95,9 +98,6 @@ Pm = CP;
 Pm_old = Pm;
 
 iterct = 0;
-rs = zeros(1000,1);
-iterations = zeros(1000,1);
-
 %Loop over each refinement level
 disp('Loop over each refinement level...');
 for multilev = 0:1:param.maxlevel-1
@@ -110,18 +110,15 @@ for multilev = 0:1:param.maxlevel-1
         [Em,Dm,Pm] = THB_Refinement(Em,Dm,Pm,knotvectorU, knotvectorV,knotvectorW,bf,CellGrad,meanGrad,param,multilev);
     end
     toc
-    
-    
-    disp('Collecting active elements, control points and basis functions...');
     tic
+    disp('Collecting active elements, control points and basis functions...');
     [ac, bf, ACP, RHS,Em,Dm] = storeActiveElem(Em,Dm,Pm,multilev);
     ac_ct = size(ac,1);
     bf_ct = size(bf,1);
     fprintf(fid_out1,'active elements = %d, active DOF =  %d at level = %d \r\n',ac_ct,bf_ct,multilev+1);
-    toc
     %store undeformed control points
     Pm_old = Pm;
-    
+    toc
     disp('Computing the non-zeros spline over each active element and storing coefficient matrices...');
     tic
     [Jm, Coeff] = computeNonZeroSplines(ac, param, Em, Dm);
@@ -149,7 +146,7 @@ for multilev = 0:1:param.maxlevel-1
     [PHI,PHIU,PHIV,PHIW,BIGX,BIGY,BIGZ,H] = GaussPhi_mex(ac,Em,knotvectorU,knotvectorV,knotvectorW,Coeff,param);
     % interpolate the intensity values of the target image at the gauss
     % points stored in BIGX, BIGY, BIGZ
-    cII2 = interp3(pixY, pixX, pixZ, I2, BIGY, BIGX, BIGZ,'*spline');
+    cII2 = interp3(pixY, pixX, pixZ, I2, BIGY, BIGX, BIGZ,'*linear',max(I2(:)));
     clear('BIGX','BIGY','BIGZ');
     toc;
     
@@ -206,10 +203,10 @@ for multilev = 0:1:param.maxlevel-1
         % cDII1X: I1_x(f(x))
         % cDII1Y: I1_y(f(x))
         % cDII1Z: I1_z(f(x))
-        cII1 = interp3(pixY, pixX, pixZ, I1, BIGYY, BIGXX, BIGZZ,'*spline');
-        cDII1X = interp3(pixY, pixX, pixZ, DI1X,BIGYY, BIGXX, BIGZZ,'*spline');
-        cDII1Y = interp3(pixY, pixX, pixZ, DI1Y, BIGYY, BIGXX, BIGZZ,'*spline');
-        cDII1Z = interp3(pixY, pixX, pixZ, DI1Z, BIGYY, BIGXX, BIGZZ,'*spline');
+        cII1 = interp3(pixY, pixX, pixZ, I1, BIGYY, BIGXX, BIGZZ,'*linear',max(I2(:)));
+        cDII1X = interp3(pixY, pixX, pixZ, DI1X,BIGYY, BIGXX, BIGZZ,'*linear',max(I2(:)));
+        cDII1Y = interp3(pixY, pixX, pixZ, DI1Y, BIGYY, BIGXX, BIGZZ,'*linear',max(I2(:)));
+        cDII1Z = interp3(pixY, pixX, pixZ, DI1Z, BIGYY, BIGXX, BIGZZ,'*linear',max(I2(:)));
         clear('BIGXX','BIGYY','BIGZZ');
         
         % denominator of the fidelity term (g(x))
@@ -237,7 +234,8 @@ for multilev = 0:1:param.maxlevel-1
         %Using the new position of the pixels, compute the new moving image
         I1(I1<0) = 0;
         I1(I1>255) = 255;
-        I1 = interp3(pixY, pixX, pixZ, I1,pyy,pxx,pzz,'*spline');
+        I1 = interp3(pixY, pixX, pixZ, I1,pyy,pxx,pzz,'*linear');
+        I1(isnan(I1)) = max(I2(:));
         I1 = round(I1);
         Iplot = interp3(pixY, pixX, pixZ, I1,pyy,pxx,pzz);
         
@@ -256,13 +254,21 @@ for multilev = 0:1:param.maxlevel-1
         iterations(iterct,1) = iterct;
         
         %compute Dice similarity
-        if(setflagDS ==1)
+        if(setflagDS==1)
             computeDiceSimilarity(fid_out,iterct,I1,I2);
         end
         
         % Plot the image and store the image in .png format
         if(plotImage==1 && saveImage == 1)
-            PlotImage_prepost(iterct,I1_in,I2_in,Iplot);
+            PlotImage(iterct,I1_in,I2_in,Iplot);
+        end
+        
+        if(saveVTK == 1)
+            if(mod(iterct,5)==0)
+                filename1 = sprintf('../PostProcessing/evolve_image%d.vtk',iterct);
+                vtkwrite(filename1,'structured_grid',pixY,pixX,pixZ,'scalars','Intensity',Iplot);
+            end
+            
         end
         
         if(RS_final>RS_initial)
@@ -285,7 +291,10 @@ for multilev = 0:1:param.maxlevel-1
     [CellGrad, meanGrad] = computeDiffGradImage(cell_co,I1,I2, pixX, pixY, pixZ);
     fprintf('Mean Gradient = %f\n',meanGrad);
 end
+
 figure;
-plot(rs,iterations)
+plot(iterations,rs)
+xlabel('Iterations');
+ylabel('RS');
 
 

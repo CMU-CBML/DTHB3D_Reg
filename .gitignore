@@ -13,4 +13,8 @@
 **/codegen/**
 Dice*.txt
 **/.DS_Store
+Patient0*.mha
+evolve_image*.png
+PostOp.*
+PreOp.*
 

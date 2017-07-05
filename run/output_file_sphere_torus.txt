@@ -1,0 +1,25 @@
+initial residual = 315115.521317
+active elements = 15625, active DOF =  19683 at level = 1 
+Iteration = 1, residual = 279161.177847, RS = 0.885901
+Iteration = 2, residual = 232849.733828, RS = 0.738935
+Iteration = 3, residual = 181676.201909, RS = 0.576538
+Iteration = 4, residual = 135656.743271, RS = 0.430498
+Iteration = 5, residual = 110084.030490, RS = 0.349345
+Iteration = 6, residual = 93728.340810, RS = 0.297441
+Iteration = 7, residual = 82623.576381, RS = 0.262201
+Iteration = 8, residual = 75393.290776, RS = 0.239256
+Iteration = 9, residual = 62921.443102, RS = 0.199677
+Iteration = 10, residual = 57037.545520, RS = 0.181005
+Iteration = 11, residual = 49141.298080, RS = 0.155947
+Iteration = 12, residual = 44625.968729, RS = 0.141618
+Iteration = 13, residual = 41463.733768, RS = 0.131583
+Iteration = 14, residual = 40863.901906, RS = 0.129679
+Iteration = 15, residual = 38648.652370, RS = 0.122649
+Iteration = 16, residual = 38074.450186, RS = 0.120827
+Iteration = 17, residual = 35210.126427, RS = 0.111737
+Iteration = 18, residual = 35187.291626, RS = 0.111665
+active elements = 61825, active DOF =  57449 at level = 2 
+Iteration = 1, residual = 26571.672586, RS = 0.084324
+Iteration = 2, residual = 26488.359462, RS = 0.084059
+Iteration = 3, residual = 26410.681532, RS = 0.083813
+Iteration = 4, residual = 26451.970532, RS = 0.083944

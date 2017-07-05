@@ -1,9 +1,5 @@
-% COMPUTENEWPOINTS_SCRIPT   Generate MEX-function computenewPoints_mex from
-%  computenewPoints.
-% 
-% Script generated from project 'computenewPoints.prj' on 24-Jun-2017.
-% 
-% See also CODER, CODER.CONFIG, CODER.TYPEOF, CODEGEN.
+%script from automatically generating compiled *.mex files from the matlab
+%*.m files using the Matlab Coder toolbox (codegen command). 
 
 
 %adding paths
@@ -99,24 +95,9 @@ ARGS{1}{4} = coder.typeof(0,[Inf  4],[1 0]);
 %% Invoke MATLAB Coder.
 codegen -config cfg tripleIterLoop -args ARGS{1}
 
-%% Define argument types for entry-point 'tripleIterLoop'.
-ARGS = cell(1,1);
-ARGS{1} = cell(4,1);
-ARGS{1}{1} = coder.typeof(0,[1 3]);
-ARGS{1}{2} = struct;
-ARGS{1}{2}.active_cell = coder.typeof(0);
-ARGS{1}{2}.phi = coder.typeof(single(0),[Inf  1],[1 0]);
-ARGS{1}{2} = coder.typeof(ARGS{1}{2},[Inf  1],[1 0]);
-ARGS{1}{3} = struct;
-ARGS{1}{3}.nzsplines = coder.typeof(int64(0),[Inf  1],[1 0]);
-ARGS{1}{3} = coder.typeof(ARGS{1}{3},[Inf  1],[1 0]);
-ARGS{1}{4} = coder.typeof(0,[Inf  4],[1 0]);
-
-%% Invoke MATLAB Coder.
-codegen -config cfg tripleIterLoop -args ARGS{1}
-
+%% Define argument types for entry-point 'storePixelPhi'.
 cd ../../store_phi_functions
-% Define argument types for entry-point 'storePixelPhi'.
+
 ARGS = cell(1,1);
 ARGS{1} = cell(9,1);
 ARGS{1}{1} = coder.typeof(int64(0));
@@ -228,56 +209,20 @@ ARGS{1}{4} = coder.typeof(0,[1 Inf],[0 1]);
 codegen -config cfg FindSpan -args ARGS{1}
 
 cd ../thb_refinement
-
-%% Define argument types for entry-point 'computeNonZeroSplines'.
+%% Define argument types for entry-point 'computeCoeffMat'.
 ARGS = cell(1,1);
-ARGS{1} = cell(4,1);
-ARGS{1}{1} = coder.typeof(0,[Inf  2],[1 0]);
-ARGS{1}{2} = struct;
-ARGS{1}{2}.pU = coder.typeof(0);
-ARGS{1}{2}.pV = coder.typeof(0);
-ARGS{1}{2}.pW = coder.typeof(0);
-ARGS{1}{2}.maxlevel = coder.typeof(0);
-ARGS{1}{2}.nelemU = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{2}.nelemV = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{2}.nelemW = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{2}.orderGauss = coder.typeof(0);
-ARGS{1}{2}.kU = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{2}.kV = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{2}.kW = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{2}.nobU = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{2}.nobV = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{2}.nobW = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{2}.rho = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{2}.timestep = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{2}.smallNumber = coder.typeof(0);
-ARGS{1}{2}.lambda_1 = coder.typeof(0);
-ARGS{1}{2}.lambda_2 = coder.typeof(0);
-ARGS{1}{2} = coder.typeof(ARGS{1}{2});
-ARGS{1}{3} = struct;
-ARGS{1}{3}.knot_ind = coder.typeof(0,[Inf  3  2],[1 0 0]);
-ARGS{1}{3}.flag_active = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{3}.IEN = coder.typeof(0,[Inf  27],[1 0]);
-ARGS{1}{3}.chdElem = coder.typeof(0,[Inf  8],[1 0]);
-ARGS{1}{3}.cell_centre = coder.typeof(0,[Inf  3],[1 0]);
-ARGS{1}{3}.node = coder.typeof(0);
-ARGS{1}{3}.parElem = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{3}.actE = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{3} = coder.typeof(ARGS{1}{3},[Inf  1],[1 0]);
-ARGS{1}{4} = struct;
-ARGS{1}{4}.basis_ind = coder.typeof(0,[Inf  3],[1 0]);
-ARGS{1}{4}.flag_active = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{4}.chdBasis = coder.typeof(0,[Inf  64],[1 0]);
-ARGS{1}{4}.coeffBasis = coder.typeof(0,[Inf  64  2],[1 0 0]);
-ARGS{1}{4}.suppCell = coder.typeof(0,[Inf  27],[1 0]);
-ARGS{1}{4}.flag_trunc = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{4}.flag_ref = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{4}.flag_bdy = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{4}.actB = coder.typeof(0,[Inf  1],[1 0]);
-ARGS{1}{4} = coder.typeof(ARGS{1}{4},[Inf  1],[1 0]);
+ARGS{1} = cell(7,1);
+ARGS{1}{1} = coder.typeof(0);
+ARGS{1}{2} = coder.typeof(0);
+ARGS{1}{3} = coder.typeof(0);
+ARGS{1}{4} = coder.typeof(0,[27  1]);
+ARGS{1}{5} = coder.typeof(0,[27  1]);
+ARGS{1}{6} = coder.typeof(0,[27 64  2]);
+ARGS{1}{7} = coder.typeof(0,[1 27]);
 
 %% Invoke MATLAB Coder.
-codegen -config cfg computeNonZeroSplines -args ARGS{1}
+codegen -config cfg computeCoeffMat -args ARGS{1}
+
 
 
 cd ../run

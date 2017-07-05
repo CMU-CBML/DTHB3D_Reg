@@ -102,7 +102,7 @@ for i = 1:ac_ct %loop over the active elements
             NewInactiveF = Dm(m+1).flag_trunc(local_s1,1);
             
             %compute coefficient matrix of the splines at this level
-            [ct,ct11] = computeCoeffMat(pU, pV, pW,ActiveFlagF,NewInactiveF,cmat, local_s1);
+            [ct,ct11] = computeCoeffMat_mex(pU, pV, pW,ActiveFlagF,NewInactiveF,cmat, local_s1);
             
             ct1 = squeeze(ctemp(m+1,:,:));
             ct = ct*ct1;

@@ -1,2 +1,18 @@
 initial residual = 131978.975485
 active elements = 17500, active DOF =  21870 at level = 1 
+Iteration = 1, residual = 113139.783369, RS = 0.857256
+Iteration = 2, residual = 102147.933110, RS = 0.773971
+Iteration = 3, residual = 98512.554736, RS = 0.746426
+Iteration = 4, residual = 97010.810889, RS = 0.735047
+Iteration = 5, residual = 95583.408182, RS = 0.724232
+Iteration = 6, residual = 94602.751080, RS = 0.716802
+Iteration = 7, residual = 93291.030376, RS = 0.706863
+Iteration = 8, residual = 92062.132092, RS = 0.697551
+Iteration = 9, residual = 90785.519520, RS = 0.687879
+Iteration = 10, residual = 89785.461476, RS = 0.680301
+Iteration = 11, residual = 88562.783969, RS = 0.671037
+Iteration = 12, residual = 87427.340767, RS = 0.662434
+Iteration = 13, residual = 86360.996869, RS = 0.654354
+Iteration = 14, residual = 85350.891937, RS = 0.646701
+Iteration = 15, residual = 84340.569641, RS = 0.639045
+Iteration = 16, residual = 83388.905787, RS = 0.631835

@@ -1,0 +1,8 @@
+initial residual = 86890.851710
+active elements = 16384, active DOF =  20808 at level = 1 
+Iteration = 1, residual = 78415.404105, RS = 0.902459
+Iteration = 2, residual = 66742.708530, RS = 0.768121
+Iteration = 3, residual = 63756.753851, RS = 0.733757
+Iteration = 4, residual = 63068.270801, RS = 0.725833
+Iteration = 5, residual = 60661.078600, RS = 0.698130
+Iteration = 6, residual = 58167.904525, RS = 0.669436

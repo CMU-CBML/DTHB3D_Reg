@@ -1,7 +1,6 @@
-function mainfunction_medical_img_liverCT()
 clear all;
 close all;
-clc;
+
 
 % if computing Dice Similarity for medical images from Brainweb, setflagDS
 % = 1;
@@ -126,7 +125,7 @@ for multilev = 0:1:param.maxlevel-1
     
     disp('Computing the non-zeros spline over each active element and storing coefficient matrices...');
     tic
-    [Jm, Coeff] = computeNonZeroSplines_mex(ac, param, Em, Dm);
+    [Jm, Coeff] = computeNonZeroSplines(ac, param, Em, Dm);
     toc
     
     disp('Computing the basis functions at pixel coordinates...');
@@ -148,7 +147,7 @@ for multilev = 0:1:param.maxlevel-1
     [Gv,Wv] = ggquad(param.orderGauss);
     [Gw,Ww] = ggquad(param.orderGauss);
     
-    [PHI,PHIU,PHIV,PHIW,BIGX,BIGY,BIGZ,H] = GaussPhi(ac,Em,knotvectorU,knotvectorV,knotvectorW,Coeff,param);
+    [PHI,PHIU,PHIV,PHIW,BIGX,BIGY,BIGZ,H] = GaussPhi_mex(ac,Em,knotvectorU,knotvectorV,knotvectorW,Coeff,param);
     % interpolate the intensity values of the target image at the gauss
     % points stored in BIGX, BIGY, BIGZ
     cII2 = interp3(pixY, pixX, pixZ, I2, BIGY, BIGX, BIGZ,'*spline');
