@@ -1,0 +1,4 @@
+The images patient109_mr_T1.mha and patient105_mr_T1.mha have been obtained from 
+http://www.insight-journal.org/rire/download_data.php and is licensed under
+the Creative Commons 3.0 license (https://creativecommons.org/licenses/by/3.0/us/). 
+The file has been converted from the mhd to mha format using the Slicer 3D software from https://www.slicer.org/.
