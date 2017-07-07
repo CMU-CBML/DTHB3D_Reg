@@ -265,10 +265,10 @@ for multilev = 0:1:param.maxlevel-1
         end
         
         if(saveVTK == 1)
-            if(mod(iterct,5)==0)
+            
                 filename1 = sprintf('../post_processing/evolve_image%d.vtk',iterct);
                 vtkwrite(filename1,'structured_grid',pixY,pixX,pixZ,'scalars','Intensity',Iplot);
-            end
+            
             
         end
         
