@@ -32,9 +32,9 @@ itermax = 30;
 %% 1: Read image data
 %Enter file name here
 disp('Reading image data...');
-load Sphere.mat;
+load sphere_200_255.mat;
 load torus_200_255.mat;
-I1 = Sphere;
+I1 = sphere_200_255;
 I2 = torus_200_255;
 I1_in = I1; %store initial moving image
 I2_in = I2; %store initial target image
