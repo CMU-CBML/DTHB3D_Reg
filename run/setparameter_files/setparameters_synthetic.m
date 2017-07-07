@@ -8,7 +8,7 @@ pV = 2;
 pW = 2;
 
 % maximum number of levels
-maxlevel = 2;
+maxlevel = 3;
 
 % order of gauss quadrature
 orderGauss = 4;
