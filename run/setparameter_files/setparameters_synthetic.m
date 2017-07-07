@@ -62,8 +62,8 @@ rho(1,1) = 2.5; %level 2 refinement
 rho(2,1) = 3; %level 3 refinement
 rho(3,1) = 6;
 
-timestep(1,1) = 0.00025;
-timestep(2,1) = 0.00025;
+timestep(1,1) = 0.00015;
+timestep(2,1) = 0.00015;
 timestep(3,1) = 0.00010;
 
 %make a struct variable param, with all the parameters
